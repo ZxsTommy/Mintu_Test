@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>后台管理中心</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/pintuer.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.js"></script>
+    <script src="/js/elementui.js"></script>
+    <link rel="stylesheet" href="/css/elementui.css"/>
+</head>
+
+<body style="background-color: #f2f9fd;">
+<div id="app2">
+    <div class="header bg-main">
+        <div class="logo margin-big-left fadein-top">
+            <h1>
+                成都敏途科技有限公司
+            </h1>
+        </div>
+
+        <div class="head-l">
+             &nbsp;&nbsp; <a class="button button-little bg-red" href="javascript:void(0)" @click="logout">
+            <span class="icon-power-off"></span>退出登录
+        </a>
+        </div>
+    </div>
+
+    <el-form :model="user" :rules="rules" :inline="true">
+        <el-form-item label="Welcome~~" prop="account">
+            {{user.account}}
+        </el-form-item>
+        <el-button type="primary" @click="update">修改个人信息</el-button>
+        <el-button @click="updatePassword">修改密码</el-button>
+    </el-form>
+
+</div>
+
+<script>
+
+    new Vue({
+        el: "#app2",
+        data: {
+                user:{
+                    account:""
+                }
+        },
+        mounted: function () {
+                    axios.get("/user/get").then(r => {
+                        this.user = r.data.data;
+                    })
+        },
+        methods: {
+            logout() {
+                axios.get("/user/logout").then(r => {
+                    if (r.data.code == 200) {
+                        location.href = "login.html";
+                    }
+                })
+            },
+            update(){
+                location.href = "update.html";
+            },
+            updatePassword(){
+                location.href = "updatePassword.html";
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
